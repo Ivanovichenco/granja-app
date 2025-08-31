@@ -1,0 +1,83 @@
+-Crear una aplicación sencilla para Android con el framework  Expo para control de una granja dedicada a la crianza y sacrifico de pollos de engorde.
+-Dame el paso a paso para crear una a una las vista y verlas desplegadas en Expo Go, comentado los pasos y el código. Luego implementamos las funcionalidades paso a paso. Las siguientes son las tablas de una aplicación Laravel pero quiero usar una base de datos local. Las tablas de Laravel son para tener un modelo para la base de datos local de la aplicación. 
+-Has las preguntas necesarias si necesitas mas formación:                                                                                                                                                                                    Alimento
+Schema::create('alimentos', function (Blueprint $table) {
+            $table->id();
+            $table->date('fecha');
+            $table->foreignId('lote_id')
+                ->constrained('lotes')
+                ->onDelete('cascade');
+            $table->integer('weight')
+                ->comment('Weight of the food in kilograms');
+            $table->string('tipo_alimento')
+                ->comment('Type of food used in the lot');
+            $table->integer('consumed_food')
+                ->default(0)
+                ->comment('Amount of food consumed in the lot');
+            $table->string('observaciones');
+            $table->timestamps();
+        });
+Lote
+Schema::create('lotes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->unsignedInteger('cantidad_inicial');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin')->nullable();
+            $table->enum('estado', ['activo', 'inactivo'])
+                ->default('activo')
+                ->comment('Indicates if the lot is currently active or inactive');
+            $table->timestamps();
+        });
+Venta
+Schema::create('ventas', function (Blueprint $table) {
+            $table->id();
+            $table->date('fecha');
+            $table->foreignId('lote_id')
+                ->constrained('lotes')
+                ->onDelete('cascade');
+            $table->integer('cantidad_vendida')
+                ->comment('Number of chickens sold from the lot');
+            $table->float('Peso')
+                ->comment('Average weight of the chickens sold in kilograms');
+            $table->decimal('precio_unitario', 8, 2)
+                ->comment('Unit price of each chicken sold');
+            $table->decimal('total_venta', 10, 2)
+                ->comment('Total sale amount for the lot');
+            $table->string('observaciones')
+                ->nullable()
+                ->comment('Additional observations regarding the sale');
+            $table->timestamps();
+        });
+
+
+Schema::create('compras', function (Blueprint $table) {
+    $table->id();
+    $table->date('fecha_compra');
+    $table->string('proveedor');
+    $table->string('concepto')
+        ->comment('Descripción de lo comprado (pollos, alimentos, insumos, etc.)');
+    $table->enum('tipo_compra', ['pollos', 'alimento', 'insumos', 'equipos', 'otros'])
+        ->comment('Categorización del tipo de compra realizada');
+    $table->decimal('cantidad', 10, 2)
+        ->comment('Cantidad comprada (puede ser unidades, kg, litros según el caso)');
+    $table->string('unidad_medida')
+        ->default('kg')
+        ->comment('Unidad de medida de la cantidad (kg, unidades, litros, etc.)');
+    $table->decimal('precio_unitario', 10, 2)
+        ->comment('Precio por unidad de medida');
+    $table->decimal('total_compra', 12, 2)
+        ->comment('Total de la compra (cantidad × precio_unitario)');
+    $table->foreignId('lote_id')
+        ->nullable()
+        ->constrained('lotes')
+        ->onDelete('set null')
+        ->comment('Relación con lote si la compra está asociada a uno específico');
+    $table->string('factura')
+        ->nullable()
+        ->comment('Número de factura o comprobante');
+    $table->string('observaciones')
+        ->nullable()
+        ->comment('Notas adicionales sobre la compra');
+    $table->timestamps();
+});

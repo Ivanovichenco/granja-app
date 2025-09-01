@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { Appbar, TextInput, Button, Card, Text, Switch } from 'react-native-paper';
 import { LinearGradient } from 'expo-linear-gradient';
+import { addLote } from '../db';
 
 const AddLoteScreen = ({ navigation }) => {
   const [nombre, setNombre] = useState('');
@@ -10,14 +11,32 @@ const AddLoteScreen = ({ navigation }) => {
   const [fechaFin, setFechaFin] = useState('');
   const [estado, setEstado] = useState(true); // true for activo, false for inactivo
 
-  const handleAddLote = () => {
-    // Aquí irá la lógica para guardar el nuevo lote
-    console.log('Nombre Lote:', nombre);
-    console.log('Cantidad Inicial:', cantidad);
-    console.log('Fecha de Inicio:', fechaInicio);
-    console.log('Fecha de Fin:', fechaFin);
-    console.log('Estado:', estado ? 'activo' : 'inactivo');
-    navigation.goBack();
+  const handleAddLote = async () => {
+    // Validar campos requeridos
+    if (!nombre || !cantidad || !fechaInicio) {
+      Alert.alert('Error', 'Por favor, complete todos los campos requeridos');
+      return;
+    }
+
+    // Validar que cantidad sea un número válido
+    const cantidadNum = parseInt(cantidad);
+    if (isNaN(cantidadNum)) {
+      Alert.alert('Error', 'La cantidad debe ser un número válido');
+      return;
+    }
+
+    try {
+      await addLote(nombre, cantidadNum, fechaInicio, fechaFin || null, estado ? 'activo' : 'inactivo');
+      Alert.alert('Éxito', 'Lote añadido correctamente');
+      // Limpiar campos
+      setNombre('');
+      setCantidad('');
+      setFechaInicio('');
+      setFechaFin('');
+    } catch (error) {
+      Alert.alert('Error', 'Hubo un problema al añadir el lote');
+      console.error(error);
+    }
   };
 
   return (
@@ -27,7 +46,7 @@ const AddLoteScreen = ({ navigation }) => {
     >
       <Appbar.Header style={{ backgroundColor: 'transparent' }}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Añadir Nuevo Lote" />
+        <Appbar.Content title="Añadir Nuevo Lote" titleStyle={{ color: 'white' }} />
       </Appbar.Header>
       <View style={styles.content}>
         <Card>
@@ -62,7 +81,7 @@ const AddLoteScreen = ({ navigation }) => {
               <Text variant="bodyMedium">Estado: {estado ? 'Activo' : 'Inactivo'}</Text>
               <Switch value={estado} onValueChange={setEstado} />
             </View>
-            <Button mode="contained" onPress={handleAddLote} style={styles.button}>
+            <Button mode="contained" onPress={handleAddLote} style={styles.button} labelStyle={styles.buttonLabel} elevation={5}>
               Guardar Lote
             </Button>
           </Card.Content>
@@ -90,6 +109,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 16,
+  },
+  buttonLabel: {
+    fontFamily: 'Roboto_700Bold',
+    fontSize: 16,
+    color: 'white',
   }
 });
 

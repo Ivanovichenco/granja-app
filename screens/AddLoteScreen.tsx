@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Appbar, TextInput, Button, Card, Text, Switch } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AddLoteScreen = ({ navigation }) => {
   const [nombre, setNombre] = useState('');
@@ -20,8 +21,11 @@ const AddLoteScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Appbar.Header>
+    <LinearGradient
+      colors={['#4c669f', '#3b5998', '#192f6a']}
+      style={styles.container}
+    >
+      <Appbar.Header style={{ backgroundColor: 'transparent' }}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Añadir Nuevo Lote" />
       </Appbar.Header>
@@ -64,7 +68,7 @@ const AddLoteScreen = ({ navigation }) => {
           </Card.Content>
         </Card>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

@@ -1,11 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Appbar, Card, Text, Button } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const DashboardScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Appbar.Header>
+    <LinearGradient
+      colors={['#4c669f', '#3b5998', '#192f6a']}
+      style={styles.container}
+    >
+      <Appbar.Header style={{ backgroundColor: 'transparent' }}>
         <Appbar.Content title="Granja de Pollos" subtitle={'Resumen de Lotes'} />
       </Appbar.Header>
       <View style={styles.content}>
@@ -29,8 +33,22 @@ const DashboardScreen = ({ navigation }) => {
         >
           Añadir Ración Diaria
         </Button>
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate('Compras')}
+          style={styles.button}
+        >
+          Ver Compras
+        </Button>
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate('Ventas')}
+          style={styles.button}
+        >
+          Ver Ventas
+        </Button>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Appbar, TextInput, Button, Card, Text } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AddRacionScreen = ({ navigation }) => {
   const [fecha, setFecha] = useState('');
@@ -21,8 +22,11 @@ const AddRacionScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Appbar.Header>
+    <LinearGradient
+      colors={['#4c669f', '#3b5998', '#192f6a']}
+      style={styles.container}
+    >
+      <Appbar.Header style={{ backgroundColor: 'transparent' }}>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
         <Appbar.Content title="Añadir Ración Diaria" />
       </Appbar.Header>
@@ -75,7 +79,7 @@ const AddRacionScreen = ({ navigation }) => {
           </Card.Content>
         </Card>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

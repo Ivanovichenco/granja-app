@@ -3,6 +3,7 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import DashboardScreen from './screens/DashboardScreen';
+import MenuScreen from './screens/MenuScreen';
 import AddLoteScreen from './screens/AddLoteScreen';
 import AddRacionScreen from './screens/AddRacionScreen';
 import ComprasScreen from './screens/ComprasScreen';
@@ -129,6 +130,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Dashboard" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Dashboard" component={DashboardScreen} />
+          <Stack.Screen name="Menu" component={MenuScreen} />
           <Stack.Screen name="AddLote" component={AddLoteScreen} />
           <Stack.Screen name="AddRacion" component={AddRacionScreen} />
           <Stack.Screen name="Compras" component={ComprasScreen} />

@@ -32,10 +32,8 @@ const DashboardScreen = ({ navigation }) => {
     <Card style={styles.card}>
       <Card.Content>
         <Text variant="titleLarge">{item.nombre}</Text>
-        <Text variant="bodyMedium">Cantidad inicial: {item.cantidad_inicial}</Text>
-        <Text variant="bodyMedium">Inicio: {item.fecha_inicio}</Text>
-        <Text variant="bodyMedium">Fin: {item.fecha_fin}</Text>
-        <Text variant="bodyMedium">Estado: {item.estado}</Text>
+        <Text variant="bodyMedium">Número de pollos: {item.cantidad_inicial}</Text>
+        <Text variant="bodyMedium">Fecha final: {item.fecha_fin}</Text>
       </Card.Content>
     </Card>
   );
@@ -56,51 +54,16 @@ const DashboardScreen = ({ navigation }) => {
           keyExtractor={item => item.id.toString()}
           ListEmptyComponent={<Text style={styles.emptyListText}>No hay lotes activos.</Text>}
         />
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('AddLote')}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          elevation={5}
-        >
-          Añadir Nuevo Lote
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('AddRacion')}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          elevation={5}
-        >
-          Añadir Ración Diaria
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('Compras')}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          elevation={5}
-        >
-          Ver Compras
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('Ventas')}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          elevation={5}
-        >
-          Ver Ventas
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => navigation.navigate('TestDB')}
-          style={styles.button}
-          labelStyle={styles.buttonLabel}
-          elevation={5}
-        >
-          Probar Base de Datos
-        </Button>
+        <View style={styles.bottomBar}>
+          <Button
+            mode="contained"
+            onPress={() => navigation.navigate('Menu')}
+            style={styles.menuButton}
+            labelStyle={styles.menuButtonLabel}
+          >
+            Menú
+          </Button>
+        </View>
       </View>
     </LinearGradient>
   );
@@ -117,14 +80,6 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 16,
   },
-  button: {
-    marginTop: 16,
-  },
-  buttonLabel: {
-    fontFamily: 'Roboto_700Bold',
-    fontSize: 16,
-    color: 'white',
-  },
   sectionTitle: {
     marginBottom: 10,
     color: 'white',
@@ -133,6 +88,24 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     marginTop: 20,
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingBottom: 40,
+    paddingTop: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+  },
+  menuButton: {
+    width: '70%',
+  },
+  menuButtonLabel: {
+    fontFamily: 'Roboto_700Bold',
+    fontSize: 16,
+    color: 'white',
   },
 });
 
